@@ -38,7 +38,7 @@ export default defineComponent({
       const form = unref(loginFormRef)
       if (!form) return
       form.validate().then(()=>{
-        const {user_name, password} = loginForm
+        // const {user_name, password} = loginForm
         //登录逻辑
         router.push('/')
       }).catch(error=>{

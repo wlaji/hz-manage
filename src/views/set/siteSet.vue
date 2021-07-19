@@ -8,41 +8,124 @@
       </div>
       <div class="part-item">
         <label>网站logo:</label>
-        <el-upload
-            class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        <Upload v-model:logoSrc="logoSrc"></Upload>
+      </div>
+      <div class="part-item">
+        <label></label>
+        <el-button type="primary">保存</el-button>
       </div>
     </div>
   </div>
   <div class="part part2">
     <h3>首页轮播图</h3>
     <div class="part-content">
-
+      <div class="part-item">
+        <label>轮播图片列表:</label>
+        <Upload v-model:logoSrc="logoSrc"></Upload>
+      </div>
+      <div class="part-item">
+        <label></label>
+        <el-button type="primary">保存</el-button>
+      </div>
     </div>
   </div>
   <div class="part part3">
     <h3>导航设置</h3>
     <div class="part-content">
-
+      <div class="part-item">
+        <label>导航列表:</label>
+        <el-tree
+            :data="navData"
+            show-checkbox
+            node-key="1000"
+            :expand-on-click-node="true">
+          <template #default="{ node, data }">
+        <span class="custom-tree-node">
+          <span>{{ node.label }}</span>
+          <span>
+            <a href="javascript:;" @click="append(data)">Append</a>
+            <a href="javascript:;" @click="remove(node, data)">Delete
+            </a>
+          </span>
+        </span>
+          </template>
+        </el-tree>
+      </div>
+      <div class="part-item">
+        <label></label>
+        <el-button type="primary">保存</el-button>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import {defineComponent,ref} from "vue";
-
+import {defineComponent, reactive, ref} from "vue";
+import Upload from '@/components/Upload.vue'
+let id = 1000;
 export default defineComponent({
   name: "SiteSet",
+  components:{
+    Upload
+  },
   setup(){
     const siteName = ref(null)
+    const logoSrc = ref('')
+    let navData = reactive([{
+      id: 1,
+      label: '一级 1',
+      children: [{
+        id: 4,
+        label: '二级 1-1',
+        children: [{
+          id: 9,
+          label: '三级 1-1-1'
+        }, {
+          id: 10,
+          label: '三级 1-1-2'
+        }]
+      }]
+    }, {
+      id: 2,
+      label: '一级 2',
+      children: [{
+        id: 5,
+        label: '二级 2-1'
+      }, {
+        id: 6,
+        label: '二级 2-2'
+      }]
+    }, {
+      id: 3,
+      label: '一级 3',
+      children: [{
+        id: 7,
+        label: '二级 3-1'
+      }, {
+        id: 8,
+        label: '二级 3-2'
+      }]
+    }])
+    const append = function(data){
+      const newChild = { id: id++, label: 'testtest', children: [] };
+      if (!data.children) {
+        data.children = []
+      }
+      data.children.push(newChild);
+      navData = [...navData]
+    }
+    const remove = function(node, data) {
+      const parent = node.parent;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex(d => d.id === data.id);
+      children.splice(index, 1);
+      navData = [...navData]
+    }
     return{
-      siteName
+      siteName,
+      logoSrc,
+      navData,
+      append,
+      remove
     }
   }
 
@@ -50,6 +133,7 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 .part{
+  margin-bottom: 50px;
   h3{
     height: 48px;
     line-height: 48px;
@@ -63,13 +147,13 @@ export default defineComponent({
     margin-left:20px;
     .part-item{
       display: flex;
-      justify-content: center;
       align-items: center;
       margin-bottom: 20px;
       label{
         flex-shrink: 0;
         margin-right: 10px;
         width: 100px;
+        font-size: 14px;
       }
     }
   }
