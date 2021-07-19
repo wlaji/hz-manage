@@ -1,11 +1,11 @@
 <template>
-  <h2>导航设置</h2>
+  <router-view></router-view>
 </template>
 <script lang="ts">
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  name: "Navset",
+  name: "Set",
 
 });
 </script>
