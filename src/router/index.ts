@@ -5,12 +5,24 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "About" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue'),
+    children: [
+      {
+        path: '',
+        name: 'SystemHome',
+        component: () => import(/* webpackChunkName: "SystemHome" */ '../views/SystemHome.vue')
+      },
+      {
+        path: 'navSet',
+        name: 'NavSet',
+        component: () => import(/* webpackChunkName: "NavSet" */ '../views/NavSet.vue')
+      },
+      {
+        path: 'businessSet',
+        name: 'BusinessSet',
+        component: () => import(/* webpackChunkName: "BusinessSet" */ '../views/BusinessSet.vue')
+      },
+    ]
   },
   {
     path: '/login',
