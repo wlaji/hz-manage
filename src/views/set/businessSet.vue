@@ -97,7 +97,7 @@ export default defineComponent({
       children.splice(index, 1);
       this.data = [...this.data];
     },
-    renderContent(h, { node, data, store }) {
+    renderContent(h, { node, data }) {
       if (node.level === 1) {
         return h(
           "span",
