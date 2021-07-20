@@ -98,7 +98,7 @@ export default defineComponent({
           break
       }
     };
-    const selectMenu = function (index) {
+    const selectMenu = function (index:string) {
       router.push({
         name: index
       })
